@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Datenbank {
 	
     private static Connection connection;
-    private static String URL = "jdbc:mysql://localhost:3306/vk-trainer";
+    private static String URL = "jdbc:mysql://localhost:3306/";
     private static String USERNAME = "root";
     private static final String PASSWORD = "";
     private String db_username;
@@ -28,19 +28,47 @@ public class Datenbank {
             System.err.println("Error connecting to database: " + e.getMessage());
         }
     }
+    
     /**
      * Erstellt Datenbank anhand eines Usernames
      */
     public void erstelleDatenbank() {
         String sql = "CREATE DATABASE "+db_username;
         try {
-            System.out.println("Datenbank "+db_username+" wurde erstellt");
-            Statement stmt = connection.createStatement();
+        	
+        	Statement stmt = connection.createStatement();
             stmt.executeUpdate(sql);
+            System.out.println("Datenbank "+db_username+" wurde erstellt");
+            
         } catch (SQLException e) {
             System.err.println("Error connecting to database: " + e.getMessage());
         }
     }
+    
+    /**
+     * Erstellt Lernset in Datenbank
+     */
+    public void erstelleLernSet(String name) {
+    	
+    	String sql = "CREATE TABLE "+name+" ("           
+                + "Englisch VARCHAR(50) NOT NULL,"
+                + "Deutsch VARCHAR(50) NOT NULL,"
+                + ");";
+    	try {
+    		
+    		Statement stmt = connection.createStatement();
+    		stmt.execute(sql);
+    		System.out.println("Lerset "+name+"wurde erstellt");
+    		
+    	} catch (SQLException e) {
+            System.err.println("Error connecting to database: " + e.getMessage());
+        }
+    }
+    
+    public void gibLernsetAus() {
+    	
+    }
+    
     /**
      * Stellt Datenverbindung her
      */
